@@ -6,13 +6,17 @@ import Header from './components/Header'
 import Login from './components/Login'
 import ActionCard from './components/ActionCard'
 import Checklist from './components/Checklist'
-import ItemForm from './components/ItemForm'
+import NewForm from './components/NewForm'
+import UpdateForm from './components/UpdateForm'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       showLogin: false,
+      showNewForm: false,
+      showUpdateForm: false,
+      updateItemId: null,
       user: null
     }
   }
@@ -23,6 +27,12 @@ class App extends Component {
     })
   }
   toggleLogin = () => this.setState({ showLogin: !this.state.showLogin })
+  toggleNewForm = () => this.setState({ showNewForm: !this.state.showNewForm })
+  toggleUpdateForm = id =>
+    this.setState({
+      showUpdateForm: !this.state.showUpdateForm,
+      updateItemId: id
+    })
   handlelogout = () => this.setState({ user: null })
   editItem = (bool, item) => {
     this.setState({ item, creating: bool })
@@ -33,14 +43,24 @@ class App extends Component {
       <AppContainer>
         <Header toggleLogin={this.toggleLogin} user={this.state.user} />
         <ActionCard />
-        <Checklist />
-        <ItemForm />
+        <Checklist toggleUpdateForm={this.toggleUpdateForm} />
+        <NewItemButton onClick={this.toggleNewForm}>Create Item</NewItemButton>
 
+        {/* Modals */}
         {this.state.showLogin ? (
           <Login
             toggleLogin={this.toggleLogin}
             logout={this.handlelogout}
             user={this.state.user}
+          />
+        ) : null}
+        {this.state.showNewForm ? (
+          <NewForm toggleNewForm={this.toggleNewForm} />
+        ) : null}
+        {this.state.showUpdateForm ? (
+          <UpdateForm
+            updateItemId={this.state.updateItemId}
+            toggleUpdateForm={this.toggleUpdateForm}
           />
         ) : null}
       </AppContainer>
@@ -59,4 +79,21 @@ const AppContainer = styled.div`
   font-size: calc(10px + 2vmin);
   min-height: 100%;
   min-width: 100vw;
+`
+const NewItemButton = styled.button`
+  background: white;
+  border: solid #282c34 5px;
+  box-shadow: 0 0 3pt 2pt white;
+  border-radius: 15px;
+  color: #282c34;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  max-width: 500px;
+  padding: 15px 30px;
+  width: 100%;
+  :hover {
+    background: #ddd;
+    box-shadow: 0 0 3pt 2pt #ddd;
+  }
 `

@@ -6,18 +6,6 @@ import CheckBox from '@material-ui/icons/CheckBox'
 import { db } from '../firestore'
 
 const Item = props => {
-  let buttonPressTimer
-
-  const handleLongPress = e => {
-    e.persist()
-    const id = e.currentTarget.dataset.id
-    buttonPressTimer = setTimeout(() => deleteItem(id), 2000)
-  }
-  const handleLongRelease = e => {
-    e.persist()
-    console.log('clear timeout')
-    clearTimeout(buttonPressTimer)
-  }
   const handleToggleStatus = (id, bool) => {
     db.collection('items')
       .doc(id)
@@ -25,22 +13,11 @@ const Item = props => {
       .then(res => props.handleMultipleCheck())
       .catch()
   }
-  const deleteItem = id => {
-    db.collection('items')
-      .doc(id)
-      .delete()
-      .catch(feedback => this.setState({ feedback }))
-  }
 
   return (
     <ItemContainer
       data-id={props.item.id}
-      onTouchStart={handleLongPress}
-      onTouchEnd={handleLongRelease}
-      onTouchMove={handleLongRelease}
-      onMouseDown={handleLongPress}
-      onMouseUp={handleLongRelease}
-      onMouseLeave={handleLongRelease}
+      onClick={() => props.onClick(props.item.id)}
     >
       {props.item.done ? (
         <Checked onClick={() => handleToggleStatus(props.item.id, false)} />

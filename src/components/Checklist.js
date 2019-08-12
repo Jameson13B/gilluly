@@ -65,6 +65,7 @@ class Checklist extends Component {
               <Item
                 key={item.id}
                 item={item}
+                onClick={this.props.toggleUpdateForm}
                 handleMultipleCheck={this.handleMultipleCheck}
               />
             ))
