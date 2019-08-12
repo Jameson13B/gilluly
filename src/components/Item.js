@@ -47,8 +47,8 @@ const Item = props => {
       ) : (
         <UnChecked onClick={() => handleToggleStatus(props.item.id, true)} />
       )}
-      <Name>{props.item.name}</Name>
-      <PostedBy>{props.item.postedBy}</PostedBy>
+      <Name done={props.item.done}>{props.item.name}</Name>
+      <PostedBy done={props.item.done}>{props.item.postedBy}</PostedBy>
     </ItemContainer>
   )
 }
@@ -84,10 +84,12 @@ const Name = styled.h5`
   flex: 3;
   margin: 10px;
   overflow: hidden;
+  text-decoration: ${props => (props.done ? 'line-through' : 'none')};
 `
 const PostedBy = styled.h5`
   flex: 1;
   font-style: italic;
   margin: 10px;
   overflow: hidden;
+  text-decoration: ${props => (props.done ? 'line-through' : 'none')};
 `

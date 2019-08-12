@@ -10,7 +10,7 @@ class Checklist extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      items: [],
+      items: null,
       allStatus: 'multiple'
     }
   }
@@ -57,8 +57,10 @@ class Checklist extends Component {
           <Name>Item</Name>
           <PostedBy>Poster</PostedBy>
         </Titles>
-        <ItemList empty={!this.state.items.length}>
-          {this.state.items.length ? (
+        <ItemList empty={this.state.items === null || !this.state.items.length}>
+          {this.state.items === null ? (
+            <h3>List Empty</h3>
+          ) : this.state.items.length ? (
             this.state.items.map(item => (
               <Item
                 key={item.id}
