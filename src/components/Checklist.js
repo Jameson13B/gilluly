@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import orderBy from 'lodash/orderBy'
 
 import Item from './Item'
 import CheckBox from '@material-ui/icons/CheckBox'
