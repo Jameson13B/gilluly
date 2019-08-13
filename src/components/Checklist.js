@@ -11,6 +11,7 @@ class Checklist extends Component {
     super(props)
     this.state = {
       items: null,
+      desc: false,
       allStatus: 'multiple'
     }
   }
@@ -54,21 +55,29 @@ class Checklist extends Component {
       <ChecklistContainer>
         <Titles>
           {this.renderBox()}
-          <Name>Item</Name>
+          <Name onClick={() => this.setState({ desc: !this.state.desc })}>
+            Item
+          </Name>
           <PostedBy>Poster</PostedBy>
         </Titles>
         <ItemList empty={this.state.items === null || !this.state.items.length}>
           {this.state.items === null ? (
             <h3>List Empty</h3>
           ) : this.state.items.length ? (
-            this.state.items.map(item => (
-              <Item
-                key={item.id}
-                item={item}
-                onClick={this.props.toggleUpdateForm}
-                handleMultipleCheck={this.handleMultipleCheck}
-              />
-            ))
+            this.state.items
+              .sort((a, b) =>
+                this.state.desc
+                  ? b.name.localeCompare(a.name)
+                  : a.name.localeCompare(b.name)
+              )
+              .map(item => (
+                <Item
+                  key={item.id}
+                  item={item}
+                  onClick={this.props.toggleUpdateForm}
+                  handleMultipleCheck={this.handleMultipleCheck}
+                />
+              ))
           ) : (
             <h3>Loading...</h3>
           )}
@@ -95,6 +104,7 @@ const Titles = styled.div`
   padding: 0 10px 0 0;
 `
 const Box = styled(CheckBox)`
+  cursor: pointer;
   flex: 1;
   margin: 10px;
   transform-origin: 50% 50%;
@@ -103,6 +113,7 @@ const Box = styled(CheckBox)`
   }
 `
 const UnBox = styled(CheckBoxOutlineBlank)`
+  cursor: pointer;
   flex: 1;
   margin: 10px;
   transform-origin: 50% 50%;
@@ -111,6 +122,7 @@ const UnBox = styled(CheckBoxOutlineBlank)`
   }
 `
 const Name = styled.h4`
+  cursor: pointer;
   flex: 3;
   margin: 0 10px;
 `
