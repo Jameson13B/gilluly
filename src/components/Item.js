@@ -15,17 +15,21 @@ const Item = props => {
   }
 
   return (
-    <ItemContainer
-      data-id={props.item.id}
-      onClick={() => props.onClick(props.item.id)}
-    >
+    <ItemContainer data-id={props.item.id}>
       {props.item.done ? (
         <Checked onClick={() => handleToggleStatus(props.item.id, false)} />
       ) : (
         <UnChecked onClick={() => handleToggleStatus(props.item.id, true)} />
       )}
-      <Name done={props.item.done}>{props.item.name}</Name>
-      <PostedBy done={props.item.done}>{props.item.postedBy}</PostedBy>
+      <Name done={props.item.done} onClick={() => props.onClick(props.item.id)}>
+        {props.item.name}
+      </Name>
+      <PostedBy
+        done={props.item.done}
+        onClick={() => props.onClick(props.item.id)}
+      >
+        {props.item.postedBy}
+      </PostedBy>
     </ItemContainer>
   )
 }
@@ -62,6 +66,7 @@ const Name = styled.h5`
   margin: 10px;
   overflow: hidden;
   text-decoration: ${props => (props.done ? 'line-through' : 'none')};
+  width: 80%;
 `
 const PostedBy = styled.h5`
   flex: 1;
@@ -69,4 +74,5 @@ const PostedBy = styled.h5`
   margin: 10px;
   overflow: hidden;
   text-decoration: ${props => (props.done ? 'line-through' : 'none')};
+  width: 15%;
 `
