@@ -92,8 +92,8 @@ const ActionCardContainer = styled.div`
   background: white;
   border-radius: 15px;
   color: #282c34;
-  height: 10%;
-  margin: 4%;
+  height: 6%;
+  margin: 2% 0 1% 0;
   max-width: 550px;
   text-align: center;
   width: 92%;

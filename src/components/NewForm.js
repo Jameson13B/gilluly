@@ -70,9 +70,9 @@ class NewForm extends Component {
             value={this.state.tag}
             onChange={this.handleInputChange}
           >
-            <option value='Store'>Store</option>
-            <option value='Home'>Home</option>
-            <option value='Dad'>Dad</option>
+            <option value='store'>Store</option>
+            <option value='home'>Home</option>
+            <option value='dad'>Dad</option>
           </Dropdown>
           {this.state.feedback ? (
             <Feedback>{this.state.feedback}</Feedback>

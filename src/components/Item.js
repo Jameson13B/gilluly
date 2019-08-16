@@ -10,8 +10,6 @@ const Item = props => {
     db.collection('items')
       .doc(id)
       .update({ done: bool })
-      .then(res => props.handleMultipleCheck())
-      .catch()
   }
 
   return (
@@ -40,6 +38,7 @@ const ItemContainer = styled.div`
   align-items: center;
   border: 1px solid white;
   border-radius: 15px;
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   margin: 15px 10px;

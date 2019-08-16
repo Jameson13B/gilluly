@@ -77,7 +77,7 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
-  min-height: 100%;
+  min-height: 100vh;
   min-width: 100vw;
 `
 const NewItemButton = styled.button`
@@ -88,7 +88,7 @@ const NewItemButton = styled.button`
   color: #282c34;
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 25px;
+  margin-bottom: 0;
   max-width: 500px;
   padding: 15px 30px;
   width: 100%;
