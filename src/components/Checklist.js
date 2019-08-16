@@ -10,9 +10,10 @@ class Checklist extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      items: null,
+      items: [],
       desc: false,
-      allStatus: 'multiple'
+      allStatus: 'multiple',
+      filter: 'all'
     }
   }
 
@@ -27,32 +28,42 @@ class Checklist extends Component {
       this.setState({ items })
     })
   }
-  handleToggleAll = (allStatus, bool) => {
-    db.collection('items')
-      .get()
-      .then(items => {
-        items.forEach(doc => {
-          var itemRef = db.collection('items').doc(doc.id)
-
-          this.setState({ allStatus })
-
-          return itemRef.update({
-            done: bool
-          })
-        })
-      })
-  }
-  handleMultipleCheck = () => this.setState({ allStatus: 'multiple' })
-  renderBox = () =>
-    this.state.allStatus === 'unchecked' ? (
-      <UnBox onClick={() => this.handleToggleAll('checked', false)} />
-    ) : (
-      <Box onClick={() => this.handleToggleAll('unchecked', true)} />
-    )
+  renderBox = () => (this.state.allStatus === 'unchecked' ? <UnBox /> : <Box />)
+  setFilter = e => this.setState({ filter: e.target.name })
 
   render() {
     return (
       <ChecklistContainer>
+        <FilterBar>
+          <FilterButton
+            onClick={this.setFilter}
+            active={this.state.filter === 'all'}
+            name='all'
+          >
+            All
+          </FilterButton>
+          <FilterButton
+            onClick={this.setFilter}
+            active={this.state.filter === 'store'}
+            name='store'
+          >
+            Store
+          </FilterButton>
+          <FilterButton
+            onClick={this.setFilter}
+            active={this.state.filter === 'home'}
+            name='home'
+          >
+            Home
+          </FilterButton>
+          <FilterButton
+            onClick={this.setFilter}
+            active={this.state.filter === 'dad'}
+            name='dad'
+          >
+            Dad
+          </FilterButton>
+        </FilterBar>
         <Titles>
           {this.renderBox()}
           <Name onClick={() => this.setState({ desc: !this.state.desc })}>
@@ -61,10 +72,13 @@ class Checklist extends Component {
           <PostedBy>Poster</PostedBy>
         </Titles>
         <ItemList empty={this.state.items === null || !this.state.items.length}>
-          {this.state.items === null ? (
-            <h3>List Empty</h3>
-          ) : this.state.items.length ? (
+          {this.state.items.length ? (
             this.state.items
+              .filter(item =>
+                this.state.filter === 'all'
+                  ? item
+                  : item.tag === this.state.filter
+              )
               .sort((a, b) =>
                 this.state.desc
                   ? b.name.localeCompare(a.name)
@@ -75,7 +89,6 @@ class Checklist extends Component {
                   key={item.id}
                   item={item}
                   onClick={this.props.toggleUpdateForm}
-                  handleMultipleCheck={this.handleMultipleCheck}
                 />
               ))
           ) : (
@@ -90,10 +103,23 @@ class Checklist extends Component {
 export default Checklist
 
 const ChecklistContainer = styled.div`
-  flex: auto;
-  max-height: 60vh;
   max-width: 550px;
   width: 100%;
+`
+const FilterBar = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  padding: 1% 0 2% 0;
+`
+const FilterButton = styled.button`
+  background: ${props => (props.active ? '#282c34' : 'white')};
+  border: ${props => (props.active ? 'solid white 5px' : 'solid #282c34 5px')};
+  box-shadow: ${props =>
+    props.active ? '0 0 3pt 2pt #282c34' : '0 0 3pt 1pt white'};
+  border-radius: 15px;
+  color: ${props => (props.active ? 'white' : '#282c34')};
+  font-size: 1rem;
+  width: 15%;
 `
 const Titles = styled.div`
   align-items: center;
