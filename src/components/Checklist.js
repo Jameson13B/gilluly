@@ -118,8 +118,13 @@ const FilterButton = styled.button`
     props.active ? '0 0 3pt 2pt #282c34' : '0 0 3pt 1pt white'};
   border-radius: 15px;
   color: ${props => (props.active ? 'white' : '#282c34')};
+  display: flex;
   font-size: 1rem;
+  justify-content: center;
   width: 15%;
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+  }
 `
 const Titles = styled.div`
   align-items: center;
