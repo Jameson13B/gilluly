@@ -122,6 +122,7 @@ const FormContainer = styled.div`
 `
 const FormContent = styled.div`
   max-width: 400px;
+  padding: 25px;
   position: relative;
   top: 20%;
   width: 100%;

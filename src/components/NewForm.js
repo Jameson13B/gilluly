@@ -9,7 +9,7 @@ class NewForm extends Component {
     super(props)
     this.state = {
       name: '',
-      tag: 'Store',
+      tag: 'store',
       id: null,
       user: null,
       feedback: null
@@ -99,6 +99,7 @@ const FormContent = styled.form`
   display: flex;
   flex-direction: column;
   max-width: 400px;
+  padding: 25px;
   position: relative;
   top: 20%;
   width: 100%;

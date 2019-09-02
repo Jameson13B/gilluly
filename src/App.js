@@ -76,7 +76,6 @@ const AppContainer = styled.div`
   color: white;
   display: flex;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
   min-height: 100vh;
   min-width: 100vw;
 `
@@ -88,10 +87,11 @@ const NewItemButton = styled.button`
   color: #282c34;
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 0;
+  margin: 0 4%;
+  // margin-bottom: 0;
   max-width: 500px;
   padding: 15px 30px;
-  width: 100%;
+  width: 92%;
   :hover {
     background: #ddd;
     box-shadow: 0 0 3pt 2pt #ddd;
