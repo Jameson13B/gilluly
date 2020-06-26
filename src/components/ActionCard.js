@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import { db, Timestamp } from '../firestore'
 
-const ActionCard = props => {
+const ActionCard = (props) => {
   const [editing, setEditing] = useState(false)
   const [date, setDate] = useState(null)
   const [input, setInput] = useState()
@@ -12,36 +12,33 @@ const ActionCard = props => {
   useEffect(() => {
     db.collection('nextEvent')
       .where('done', '==', false)
-      .onSnapshot(res => {
+      .onSnapshot((res) => {
         setDateId(res.docs[0].id)
         setDate(res.docs[0].data().date.toDate())
       })
   }, [])
 
-  const saveDate = e => {
+  const saveDate = (e) => {
     const isNotSameDate = new Date(input + ' 12:00:00 AM') !== date
-    const isEnter = e.keyCode === 13
 
-    if (isEnter && isNotSameDate) {
+    if (isNotSameDate) {
+      const collection = db.collection('nextEvent')
+
       // Add new event
-      db.collection('nextEvent')
+      collection
         .add({
           date: Timestamp.fromDate(new Date(input + ' 12:00:00 AM')),
-          done: false
+          done: false,
         })
-        .then(res => {
+        .then((res) => {
           // Update the last date to done
-          db.collection('nextEvent')
-            .doc(dateId)
-            .update({
-              done: true
-            })
+          collection.doc(dateId).update({
+            done: true,
+          })
           // Set the new date ID
           setDateId(res.id)
           // Set the new date
           setDate(input)
-          // Clear the input
-          setInput()
           // Return to default view
           setEditing(false)
         })
@@ -49,7 +46,7 @@ const ActionCard = props => {
       alert('Current date is already saved.')
     }
   }
-  const getTodayDate = todaysDate => {
+  const getTodayDate = (todaysDate) => {
     const year = todaysDate.getFullYear()
     const month = ('0' + (todaysDate.getMonth() + 1)).slice(-2)
     const day = ('0' + todaysDate.getDate()).slice(-2)
@@ -64,22 +61,20 @@ const ActionCard = props => {
           style={{
             height: '100%',
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
           }}
         >
           <input
             value={moment(input).format('YYYY-MM-DD')}
-            onChange={e => setInput(e.target.value)}
-            onKeyUp={saveDate}
+            onChange={(e) => setInput(e.target.value)}
+            onBlur={saveDate}
             min={getTodayDate(new Date())}
-            type='text'
+            type="date"
           />
-          <button onClick={() => setEditing(false)}>CANCEL</button>
         </div>
       ) : (
         <h4 onClick={() => setEditing(true)}>
-          Next Camping Event:{' '}
-          {date ? moment(date).format('MMMM Do') : 'Loading...'}
+          Next Camping Event: {date ? moment(date).format('MMMM Do') : 'Loading...'}
         </h4>
       )}
     </ActionCardContainer>
